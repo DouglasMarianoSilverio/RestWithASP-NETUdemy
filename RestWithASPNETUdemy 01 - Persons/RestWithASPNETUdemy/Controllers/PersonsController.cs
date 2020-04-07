@@ -9,7 +9,7 @@ using RestWithASPNETUdemy.Services;
 
 namespace RestWithASPNETUdemy.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
     public class PersonsController : ControllerBase
     {
@@ -59,7 +59,9 @@ namespace RestWithASPNETUdemy.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
+            _personService.Delete(id);
             return NoContent();
+            
         }
     }
 }
