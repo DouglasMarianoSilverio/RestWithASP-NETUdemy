@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Business.Implementation;
 using RestWithASPNETUdemy.Context;
 using RestWithASPNETUdemy.HyperMedia;
-using RestWithASPNETUdemy.Repository;
 using RestWithASPNETUdemy.Repository.Generic;
-using RestWithASPNETUdemy.Repository.Implementation;
 using System;
 using System.Collections.Generic;
 using Tapioca.HATEOAS;
@@ -77,6 +77,12 @@ namespace RestWithASPNETUdemy
                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
            }).AddXmlSerializerFormatters();
 
+            services.AddSwaggerGen( c => 
+            {
+                // c.SwaggerDoc("v1", new Info { });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RESTFul API with Asp.Net Core 3.1", Version = "v1" });
+            });
+
             var filterOptions = new HyperMediaFilterOptions();
             filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
             services.AddSingleton(filterOptions);
@@ -99,9 +105,15 @@ namespace RestWithASPNETUdemy
                 app.UseDeveloperExceptionPage();
                 
             }
-             
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","My API V1");
+            });
 
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
             app.UseHttpsRedirection();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Data.VO;
+using System.Collections.Generic;
 using Tapioca.HATEOAS;
 
 namespace RestWithASPNETUdemy.Controllers
@@ -18,6 +19,10 @@ namespace RestWithASPNETUdemy.Controllers
 
         // GET: api/Persons
         [HttpGet]
+        [ProducesResponseType(typeof(List<PersonVO>), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -26,6 +31,10 @@ namespace RestWithASPNETUdemy.Controllers
 
         // GET: api/Persons/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(PersonVO), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(long id)
         {
@@ -37,9 +46,12 @@ namespace RestWithASPNETUdemy.Controllers
 
         // POST: api/Persons
         [HttpPost]
+        [ProducesResponseType(typeof(PersonVO), 201)]        
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] PersonVO person)
-        {            
+        {
             if (person == null)
                 return BadRequest();
             return new ObjectResult(_personBusiness.Create(person));
@@ -47,28 +59,35 @@ namespace RestWithASPNETUdemy.Controllers
 
         // PUT: api/Persons/5
         [HttpPut]
+        [ProducesResponseType(typeof(PersonVO), 200)]
+        [ProducesResponseType(202)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult Put( [FromBody] PersonVO person)
+        public IActionResult Put([FromBody] PersonVO person)
         {
-            if (person == null) 
+            if (person == null)
                 return BadRequest();
-            
+
             var updatePerson = _personBusiness.Update(person);
-            
-            if (updatePerson == null) 
+
+            if (updatePerson == null)
                 return NoContent();
 
             return new ObjectResult(updatePerson);
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")]        
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Delete(long id)
         {
             _personBusiness.Delete(id);
             return NoContent();
-            
+
         }
     }
 }
