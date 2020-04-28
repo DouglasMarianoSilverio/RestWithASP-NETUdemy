@@ -1,4 +1,5 @@
-﻿using RestWithASPNETUdemy.Models;
+﻿using RestWithASPNETUdemy.Data.VO;
+using RestWithASPNETUdemy.Models;
 using RestWithASPNETUdemy.Repository;
 using RestWithASPNETUdemy.Security.Configuration;
 using System;
@@ -25,7 +26,7 @@ namespace RestWithASPNETUdemy.Business.Implementation
             
         }
 
-        public object FindByLogin(User user)
+        public object FindByLogin(UserVO user)
         {
             bool credentialIsValid = false;
             if (user != null && !string.IsNullOrEmpty(user.Login))
