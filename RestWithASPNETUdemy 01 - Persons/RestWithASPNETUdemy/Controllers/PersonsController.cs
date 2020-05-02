@@ -40,6 +40,17 @@ namespace RestWithASPNETUdemy.Controllers
             return Ok(_personBusiness.FindByName(firstName,lastName));
         }
 
+        [HttpGet("find-by-paged-search/{sortDirection}/{pageSize}/{page}")]
+        [ProducesResponseType(typeof(List<PersonVO>), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult GetPagedSearch([FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return new OkObjectResult(_personBusiness.FindWithPagedSearch(name,sortDirection,pageSize,page));
+        }
+
         // GET: api/Persons/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PersonVO), 200)]

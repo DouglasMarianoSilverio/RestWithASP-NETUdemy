@@ -67,6 +67,29 @@ namespace RestWithASPNETUdemy.Repository.Generic
             return dataset.SingleOrDefault(i => i.Id.Equals(id));
         }
 
+        public IList<T> FindWithPagedSearch(string query)
+        {
+            return dataset.FromSqlRaw<T>(query).ToList();
+        }
+
+        public int GetCount(string query)
+        {
+            // https://stackoverflow.com/questions/40557003/entity-framework-core-count-does-not-have-optimal-performance
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    result = command.ExecuteScalar().ToString();
+                }
+            }
+
+            return Int32.Parse(result);
+        }
+
         public T Update(T item)
         {
             // Verificamos se a pessoa existe na base
