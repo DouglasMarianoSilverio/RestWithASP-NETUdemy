@@ -23,6 +23,9 @@
     <None Update="db\datasets\V1_0_10__Insert_data_in_users.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="db\datasets\V1_0_11__Insert_data_in_persons.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="db\datasets\V1_0_4__Insert_data_in_books.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

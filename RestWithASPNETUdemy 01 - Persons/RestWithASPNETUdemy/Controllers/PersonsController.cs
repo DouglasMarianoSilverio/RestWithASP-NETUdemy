@@ -29,6 +29,17 @@ namespace RestWithASPNETUdemy.Controllers
             return Ok(_personBusiness.FindAll());
         }
 
+        [HttpGet("find-by-name")]
+        [ProducesResponseType(typeof(List<PersonVO>), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult GetByName([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            return Ok(_personBusiness.FindByName(firstName,lastName));
+        }
+
         // GET: api/Persons/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PersonVO), 200)]

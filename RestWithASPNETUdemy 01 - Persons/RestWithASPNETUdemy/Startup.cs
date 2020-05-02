@@ -103,6 +103,7 @@ namespace RestWithASPNETUdemy
 
             services.AddApiVersioning();
             //authorize by default
+
             services.AddMvc(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -137,6 +138,7 @@ namespace RestWithASPNETUdemy
             //services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
         }
 

@@ -1,7 +1,5 @@
 ﻿using RestWithASPNETUdemy.Data.Converters;
 using RestWithASPNETUdemy.Data.VO;
-using RestWithASPNETUdemy.Models;
-using RestWithASPNETUdemy.Repository;
 using RestWithASPNETUdemy.Repository.Generic;
 using System.Collections.Generic;
 
@@ -10,10 +8,10 @@ namespace RestWithASPNETUdemy.Business.Implementation
     public class PersonBusiness : IPersonBusiness
     {
         
-        private IRepository<Person> _personRepository;
+        private IPersonRepository _personRepository;
         public readonly PersonConverter _converter;
 
-        public PersonBusiness(IRepository<Person> personRepository)
+        public PersonBusiness(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
             _converter = new PersonConverter();
@@ -34,6 +32,11 @@ namespace RestWithASPNETUdemy.Business.Implementation
         public IList<PersonVO> FindAll()
         {
             return  _converter.ParseList(_personRepository.FindAll()) ;
+        }
+
+        public IList<PersonVO> FindByName(string firstName, string lastName)
+        {
+            return _converter.ParseList(_personRepository.FindByName(firstName, lastName));
         }
 
         public PersonVO FindbyId(long id)
